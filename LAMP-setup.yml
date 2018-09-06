@@ -1,0 +1,38 @@
+---
+#LAMP環境セットアップ用
+
+- name: LAMP-setup
+  hosts: all
+  tasks:
+    - name: install MySQLrepo
+      yum: name={{ item }}
+      with_items:
+        - http://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
+
+    - name: install package from yum
+      yum: name={{ item }}
+      with_items:
+        - httpd
+        - mysql-community-server
+        - php
+        - php-mysql
+
+    - name: Enable HTTP service
+      systemd:
+        name: httpd
+        state: started
+        daemon_reload: yes
+        enabled: yes
+      #state: started
+      with_items:
+        - httpd
+        - mysqld
+
+    - name: Enable Mysqld service
+      systemd:
+        name: mysqld
+        state: started
+        daemon_reload: yes
+        enabled: yes
+        # Password4!
+
