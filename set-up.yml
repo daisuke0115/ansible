@@ -1,0 +1,23 @@
+- hosts: all
+  tasks:
+    - name: add user
+      user:
+        name: user01
+        update_password: on_create
+        password: $6$rounds=656000$XafsALjx8GYAFvYp$m5jnc7Tt6ZIOjaYR9nrzwS7veWbc/B5g4W997/AY2xhpQrpINSDltNNUcUvAK.uRKtYFFIlIv8kDAhU33sAxi1
+    - name: install packages from yum
+      yum: name={{ item }} 
+      with_items:
+        - vim-enhanced
+    - name: setenforce 0
+      command: "getenforce"
+      changed_when: False
+      register: test_result
+    - name: message
+#      debug: msg="{{ test_result.cmd }} is {{ test_result.stdout }}"
+      debug: msg={{ test_result.stdout }}
+    - name: disable selinux
+      lineinfile:
+       path: "/etc/sysconfig/selinux"
+       regexp: "^SELINUX="
+       line: "SELINUX=disabled"
