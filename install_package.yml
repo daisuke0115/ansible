@@ -1,0 +1,18 @@
+- hosts: all
+  tasks:
+    - name: install packages from yum
+      yum: name={{ item }} 
+      with_items:
+        - httpd
+    - name: command test
+      command: "getenforce"
+      changed_when: False
+      register: test_result
+    - name: message
+#      debug: msg="{{ test_result.cmd }} is {{ test_result.stdout }}"
+      debug: msg={{ test_result.stdout }}
+    - name: disable selinux
+      lineinfile:
+       path: "/etc/sysconfig/selinux"
+       regexp: "^SELINUX="
+       line: "SELINUX=disabled"
