@@ -1,4 +1,4 @@
-- host: cluster
+- hosts: cluster
   tasks:
     - name: install cluster packages
       yum: name={{ item }}
