@@ -29,3 +29,16 @@
         dest: /etc/hosts
         backup: yes
 
+    - name: Ping Test02
+      command: "ping -c1 cluster01"
+      changed_when: False
+      register: ping_test01
+
+    - name: Ping Test02
+      command: "ping -c1 cluster02"
+      changed_when: False
+      register: ping_test02
+
+    - name: Message
+      debug:
+       msg: "{{ ping_test01.stdout }}  {{ ping_test02.stdout }}"
