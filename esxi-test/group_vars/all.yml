@@ -1,0 +1,8 @@
+---
+esx_hostname: esxi6.local
+esx_ipaddr: 192.168.242.131
+esx_user: root
+esx_password: password
+guest_vm_name: testvm01
+datastore_name: datastore1
+iso_path: datastore1/ISO/CentOS-7-x86_64-Minimal-1804.iso

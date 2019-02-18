@@ -1,0 +1,4 @@
+- name: Install Package
+  yum:
+    name: httpd
+  when: ansible_distribution in ['RedHat','CentOS']

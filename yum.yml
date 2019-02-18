@@ -1,0 +1,8 @@
+- hosts: host
+  remote_user: root
+  tasks:
+   - name: install packages from yum
+     yum: name={{ item }} state=absent
+     with_items:
+      - ruby
+      - httpd

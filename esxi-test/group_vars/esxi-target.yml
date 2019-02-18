@@ -1,0 +1,6 @@
+ESX_HOSTNAME='localhost.localdomain'
+ESX_USER='root'
+ESX_PASSWORD='password'
+VM_NAME='testvm01'
+DATASTORE_NAME='datasore1'
+ISO_PATH='datasore1/ISO/CentOS-7-x86_64-Minimal-1804.iso'
