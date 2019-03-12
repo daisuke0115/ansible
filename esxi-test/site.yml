@@ -14,7 +14,7 @@
         guest: "{{ guest_vm_name }}"
         state: powered_on
         validate_certs: false
-        vm_hw_version: vmx-08
+        vm_hw_version: vmx-13
         vm_extra_config:
           vcpu.hotadd: yes
           mem.hotadd:  yes
@@ -32,7 +32,7 @@
         vm_hardware:
           memory_mb: 1024
           num_cpus: 1
-          osid: centos64Guest
+          osid: centos7_64Guest
           scsi: paravirtual
           vm_cdrom:
             type: "iso"
