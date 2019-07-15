@@ -1,0 +1,30 @@
+- hosts: mysqld
+  remote_user: ansible
+  become: yes
+  vars:
+    mysql_user: test_user
+    mysql_password: P@ssw0rd
+    mysql_database: test_database
+
+  tasks:
+    - name: Create MySQL database
+      mysql_db:
+        login_user: root
+        login_password: "P@ssw0rd"
+        name: "{{ mysql_database }}"
+        state: present
+
+    - name: Create MySQL user
+      mysql_user:
+        login_user: root
+        login_password: "P@ssw0rd"
+        name: "{{ mysql_user }}"
+        host: "{{ item }}"
+        password: "{{ mysql_password }}"
+        priv: '*.*:ALL,GRANT'
+        #priv: {{ mysql_database }}.*:ALL,GRANT
+        state: present
+      with_items:
+        - localhost
+        - 192.168.242.%
+

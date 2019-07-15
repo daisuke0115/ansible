@@ -1,0 +1,56 @@
+- hosts: mysqld
+  remote_user: ansible
+  become: yes
+  tasks:
+    - name: install yum package
+      yum: name={{ item }}
+      with_items:
+        - vim-enhanced
+        - wget
+        - epel-release
+
+    - name: setenforce 0
+      command: "setenforce 0"
+      changed_when: False
+
+    - name: disable selinux
+      lineinfile:
+        path: "/etc/sysconfig/selinux"
+        regexp: "^SELINUX="
+        line: "SELINUX=disabled"
+
+    - name: Disable Firewalld
+      systemd:
+        name: firewalld
+        state: stopped
+        enabled: no
+
+    - name: Import MySqld Repository
+      yum:
+        name: http://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
+        state: latest
+        update_cache: yes
+      when: ansible_os_family == 'RedHat'
+
+    - name: Install MySQLD(CentOS)
+      yum:
+        name: mysql-community-server
+        state: installed
+      when: ansible_os_family == 'RedHat'
+
+#    - name: Copy my.cnf(CentOS)
+#      template:
+#        src: "{{ mysqld_config }}"
+#        dest: /etc/my.cnf
+#        backup: yes
+#      when: ansible_os_family == 'RedHat'
+#      notify:
+#        - "Restart MySqld"
+
+    - name: Enable MySqld
+      systemd:
+        name: mysqld
+        enabled: yes
+        state: started
+      when: ansible_os_family == 'RedHat'
+
